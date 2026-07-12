@@ -61,7 +61,7 @@ function CourseCard({ course, index }: { course: FeaturedCourse; index: number }
           href={course.href}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
-          className="relative block h-full overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] transition-colors duration-500 hover:border-cyan-neon/40 hover:shadow-[0_0_40px_rgba(6,182,212,0.15)]"
+          className="relative block h-full overflow-hidden rounded-2xl border border-amber-200/60 bg-white/90 transition-colors duration-500 hover:border-cyan-neon/40 hover:shadow-[0_0_40px_rgba(6,182,212,0.15)]"
         >
           {/* Image */}
           <div className="relative aspect-[4/3] overflow-hidden">
@@ -80,7 +80,7 @@ function CourseCard({ course, index }: { course: FeaturedCourse; index: number }
             </motion.div>
 
             {/* Gradient overlays */}
-            <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/20 to-transparent opacity-80 transition-opacity duration-500 group-hover:opacity-90" />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-slate-900/20 to-transparent opacity-80 transition-opacity duration-500 group-hover:opacity-90" />
             <div className="absolute inset-0 bg-gradient-to-br from-purple-vibrant/0 to-cyan-neon/0 transition-all duration-500 group-hover:from-purple-vibrant/25 group-hover:to-cyan-neon/15" />
 
             {/* Shine sweep on hover */}
@@ -107,7 +107,7 @@ function CourseCard({ course, index }: { course: FeaturedCourse; index: number }
 
             <div className="flex items-start justify-between gap-2">
               <motion.h3
-                className="font-heading text-sm font-semibold leading-snug text-white sm:text-base"
+                className="font-heading text-sm font-semibold leading-snug text-slate-900 sm:text-base"
                 style={{ transform: "translateZ(20px)" }}
               >
                 <motion.span
@@ -119,7 +119,7 @@ function CourseCard({ course, index }: { course: FeaturedCourse; index: number }
                 </motion.span>
               </motion.h3>
               <motion.span
-                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/5 text-slate-400 transition-colors group-hover:bg-cyan-neon/20 group-hover:text-cyan-neon"
+                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/80 text-slate-600 transition-colors group-hover:bg-cyan-neon/20 group-hover:text-cyan-neon"
                 whileHover={{ rotate: 45, scale: 1.1 }}
                 transition={{ type: "spring", stiffness: 400 }}
               >
@@ -156,10 +156,10 @@ export default function CourseContent() {
           <span className="mb-4 inline-block rounded-full glass px-4 py-1.5 text-sm text-cyan-neon">
             Explore Courses
           </span>
-          <h2 className="font-heading text-4xl font-bold text-white md:text-5xl">
+          <h2 className="font-heading text-4xl font-bold text-slate-900 md:text-5xl">
             Course <span className="gradient-text">Content</span>
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-slate-400">
+          <p className="mx-auto mt-4 max-w-2xl text-slate-600">
             12 skill-based courses designed by industry experts. Hover to explore each
             learning path.
           </p>

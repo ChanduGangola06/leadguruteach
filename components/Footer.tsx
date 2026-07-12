@@ -32,7 +32,7 @@ const courseLinks = [
 
 export default function Footer() {
   return (
-    <footer id="affiliate" className="relative border-t border-white/5 bg-navy-light/50">
+    <footer id="affiliate" className="relative border-t border-amber-200/40 bg-navy-light/50">
       <div className="glow-orb glow-orb-purple -bottom-32 left-1/3 h-64 w-64 opacity-50" />
 
       <div className="section-padding relative mx-auto max-w-7xl">
@@ -42,14 +42,14 @@ export default function Footer() {
             <Link href="/" className="font-heading text-2xl font-bold gradient-text">
               LeadGuruTeach
             </Link>
-            <p className="mt-4 max-w-sm text-sm leading-relaxed text-slate-400">
+            <p className="mt-4 max-w-sm text-sm leading-relaxed text-slate-600">
               Get ahead in your career with LeadGuruTeach, the one-stop solution for your
               educational needs. Connect with top industry professionals and fuel your passion
               for success.
             </p>
 
             <div className="mt-6">
-              <p className="mb-3 text-sm font-medium text-white">Subscribe to our newsletter</p>
+              <p className="mb-3 text-sm font-medium text-slate-900">Subscribe to our newsletter</p>
               <div className="flex gap-2">
                 <div className="relative flex-1">
                   <Mail
@@ -59,7 +59,7 @@ export default function Footer() {
                   <input
                     type="email"
                     placeholder="Enter your email"
-                    className="input-glow w-full rounded-xl border border-white/10 bg-white/5 py-3 pl-10 pr-4 text-sm text-white placeholder:text-slate-500"
+                    className="input-glow w-full rounded-xl border border-amber-200/60 bg-white/80 py-3 pl-10 pr-4 text-sm text-slate-900 placeholder:text-slate-500"
                   />
                 </div>
                 <motion.button
@@ -75,13 +75,13 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-heading mb-4 font-semibold text-white">Quick Links</h4>
+            <h4 className="font-heading mb-4 font-semibold text-slate-900">Quick Links</h4>
             <ul className="flex flex-col gap-2.5">
               {quickLinks.map((link) => (
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-sm text-slate-400 transition-colors hover:text-cyan-neon"
+                    className="text-sm text-slate-600 transition-colors hover:text-cyan-neon"
                   >
                     {link.label}
                   </a>
@@ -92,13 +92,13 @@ export default function Footer() {
 
           {/* Company */}
           <div>
-            <h4 className="font-heading mb-4 font-semibold text-white">Company</h4>
+            <h4 className="font-heading mb-4 font-semibold text-slate-900">Company</h4>
             <ul className="flex flex-col gap-2.5">
               {companyLinks.map((link) => (
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-sm text-slate-400 transition-colors hover:text-cyan-neon"
+                    className="text-sm text-slate-600 transition-colors hover:text-cyan-neon"
                   >
                     {link.label}
                   </a>
@@ -109,13 +109,13 @@ export default function Footer() {
 
           {/* Courses */}
           <div>
-            <h4 className="font-heading mb-4 font-semibold text-white">Course Packages</h4>
+            <h4 className="font-heading mb-4 font-semibold text-slate-900">Course Packages</h4>
             <ul className="flex flex-col gap-2.5">
               {courseLinks.map((link) => (
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-sm text-slate-400 transition-colors hover:text-cyan-neon"
+                    className="text-sm text-slate-600 transition-colors hover:text-cyan-neon"
                   >
                     {link.label}
                   </a>
@@ -125,7 +125,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/5 pt-8 md:flex-row">
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-amber-200/40 pt-8 md:flex-row">
           <p className="text-sm text-slate-500">
             &copy; 2026 LeadGuruTeach. All Rights Reserved.
           </p>

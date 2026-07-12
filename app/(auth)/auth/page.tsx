@@ -59,7 +59,7 @@ function FloatingInput({
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
         required={required}
-        className="input-glow peer w-full rounded-xl border border-white/10 bg-white/5 px-4 pb-3 pt-6 text-sm text-white transition-all"
+        className="input-glow peer w-full rounded-xl border border-amber-200/60 bg-white/80 px-4 pb-3 pt-6 text-sm text-slate-900 transition-all"
         placeholder=" "
       />
       <label
@@ -76,7 +76,7 @@ function FloatingInput({
         <button
           type="button"
           onClick={() => setShowPassword(!showPassword)}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white"
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-900"
           aria-label={showPassword ? "Hide password" : "Show password"}
         >
           {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -110,10 +110,10 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="flex min-h-screen bg-navy">
+    <div className="flex min-h-screen bg-[#FFFBF0]">
       {/* Left Panel - Visuals */}
       <div className="relative hidden w-1/2 overflow-hidden lg:block">
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-vibrant/30 via-navy to-cyan-neon/20" />
+        <div className="absolute inset-0 bg-gradient-to-br from-amber-100/80 via-[#FFFBF0] to-purple-vibrant/10" />
         <div className="glow-orb glow-orb-purple absolute left-1/4 top-1/4 h-96 w-96 animate-pulse-glow" />
         <div className="glow-orb glow-orb-cyan absolute bottom-1/4 right-1/4 h-80 w-80 animate-pulse-glow" />
 
@@ -131,10 +131,10 @@ export default function AuthPage() {
             transition={{ delay: 0.5 }}
             className="mt-8 text-center"
           >
-            <h2 className="font-heading text-3xl font-bold text-white">
+            <h2 className="font-heading text-3xl font-bold text-slate-900">
               Unlock Your <span className="gradient-text">Potential</span>
             </h2>
-            <p className="mt-2 text-slate-400">
+            <p className="mt-2 text-slate-600">
               Join 2 Lakh+ students learning and earning with LeadGuruTeach
             </p>
           </motion.div>
@@ -145,7 +145,7 @@ export default function AuthPage() {
       <div className="flex w-full flex-col items-center justify-center px-6 py-12 lg:w-1/2">
         <Link
           href="/"
-          className="mb-8 flex items-center gap-2 self-start text-sm text-slate-400 transition-colors hover:text-cyan-neon lg:self-center"
+          className="mb-8 flex items-center gap-2 self-start text-sm text-slate-600 transition-colors hover:text-cyan-neon lg:self-center"
         >
           <ArrowLeft size={16} />
           Back to Home
@@ -156,10 +156,10 @@ export default function AuthPage() {
             <Link href="/" className="font-heading text-2xl font-bold gradient-text lg:hidden">
               LeadGuruTeach
             </Link>
-            <h1 className="font-heading mt-4 text-3xl font-bold text-white">
+            <h1 className="font-heading mt-4 text-3xl font-bold text-slate-900">
               {mode === "login" ? "Welcome Back" : "Create Account"}
             </h1>
-            <p className="mt-2 text-sm text-slate-400">
+            <p className="mt-2 text-sm text-slate-600">
               {mode === "login"
                 ? "Sign in to continue your learning journey"
                 : "Start your journey to learn, earn, and dominate"}
@@ -173,7 +173,7 @@ export default function AuthPage() {
                 key={m}
                 onClick={() => switchMode(m)}
                 className={`relative flex-1 rounded-lg py-2.5 text-sm font-medium transition-all ${
-                  mode === m ? "text-white" : "text-slate-400 hover:text-white"
+                  mode === m ? "text-slate-900" : "text-slate-600 hover:text-slate-900"
                 }`}
               >
                 {mode === m && (

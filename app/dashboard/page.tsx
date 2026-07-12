@@ -60,7 +60,7 @@ const statCards = [
 
 function ProgressBar({ progress, gradient }: { progress: number; gradient: string }) {
   return (
-    <div className="h-2 overflow-hidden rounded-full bg-white/5">
+    <div className="h-2 overflow-hidden rounded-full bg-white/80">
       <motion.div
         initial={{ width: 0 }}
         animate={{ width: `${progress}%` }}
@@ -101,7 +101,7 @@ function EarningsChart() {
     <div className="glass-strong rounded-3xl p-6">
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h3 className="font-heading text-lg font-semibold text-white">
+          <h3 className="font-heading text-lg font-semibold text-slate-900">
             Affiliate Performance
           </h3>
           <p className="text-sm text-slate-500">Earnings over the last 7 days</p>
@@ -205,18 +205,18 @@ export default function DashboardPage() {
               className={`glass-strong rounded-2xl bg-gradient-to-br p-5 ${stat.gradient}`}
             >
               <div className="mb-4 flex items-center justify-between">
-                <div className={`rounded-xl bg-white/5 p-2.5 ${stat.iconColor}`}>
+                <div className={`rounded-xl bg-white/80 p-2.5 ${stat.iconColor}`}>
                   <Icon size={20} />
                 </div>
               </div>
-              <p className="font-heading text-2xl font-bold text-white">
+              <p className="font-heading text-2xl font-bold text-slate-900">
                 <AnimatedCounter
                   value={stat.value}
                   prefix={stat.prefix}
                   suffix={stat.suffix}
                 />
               </p>
-              <p className="mt-1 text-sm text-slate-400">{stat.label}</p>
+              <p className="mt-1 text-sm text-slate-600">{stat.label}</p>
             </motion.div>
           );
         })}
@@ -225,7 +225,7 @@ export default function DashboardPage() {
       {/* Course Progress */}
       <motion.div variants={itemVariants}>
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="font-heading text-xl font-semibold text-white">My Courses</h2>
+          <h2 className="font-heading text-xl font-semibold text-slate-900">My Courses</h2>
           <button className="text-sm text-cyan-neon hover:underline">View All</button>
         </div>
 
@@ -240,12 +240,12 @@ export default function DashboardPage() {
             >
               <div className="mb-4 flex items-start justify-between">
                 <div>
-                  <h3 className="font-medium text-white">{course.title}</h3>
+                  <h3 className="font-medium text-slate-900">{course.title}</h3>
                   <p className="mt-1 text-xs text-slate-500">
                     {course.completedLessons} of {course.totalLessons} lessons completed
                   </p>
                 </div>
-                <span className="rounded-lg bg-white/5 px-2.5 py-1 text-sm font-semibold text-cyan-neon">
+                <span className="rounded-lg bg-white/80 px-2.5 py-1 text-sm font-semibold text-cyan-neon">
                   {course.progress}%
                 </span>
               </div>

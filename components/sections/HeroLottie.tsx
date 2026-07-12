@@ -126,10 +126,10 @@ export default function HeroLottie() {
             <Icon size={20} className="text-white" />
           </div>
           <div className="min-w-0">
-            <p className="truncate font-heading text-sm font-semibold text-white">
+            <p className="truncate font-heading text-sm font-semibold text-slate-900">
               {active.course}
             </p>
-            <p className="truncate text-xs text-slate-400">{active.description}</p>
+            <p className="truncate text-xs text-slate-600">{active.description}</p>
           </div>
           <div className="ml-auto flex shrink-0 gap-1">
             {courseAnimations.map((_, i) => (
@@ -137,7 +137,7 @@ export default function HeroLottie() {
                 key={i}
                 onClick={() => setCurrent(i)}
                 className={`h-1.5 rounded-full transition-all duration-300 ${
-                  i === current ? "w-5 bg-cyan-neon" : "w-1.5 bg-white/30 hover:bg-white/60"
+                  i === current ? "w-5 bg-cyan-neon" : "w-1.5 bg-amber-300/80 hover:bg-amber-400"
                 }`}
                 aria-label={`Show ${courseAnimations[i].course} animation`}
               />
@@ -170,8 +170,8 @@ export default function HeroLottie() {
             onClick={() => setCurrent(i)}
             className={`rounded-full px-3 py-1 text-[11px] font-medium transition-all sm:text-xs ${
               i === current
-                ? "bg-gradient-to-r from-purple-vibrant/30 to-cyan-neon/30 text-white ring-1 ring-cyan-neon/40"
-                : "bg-white/5 text-slate-500 hover:bg-white/10 hover:text-slate-300"
+                ? "bg-gradient-to-r from-purple-vibrant/20 to-cyan-neon/20 text-slate-900 ring-1 ring-cyan-neon/40"
+                : "bg-amber-50 text-slate-600 hover:bg-amber-100 hover:text-slate-800"
             }`}
           >
             {item.course}

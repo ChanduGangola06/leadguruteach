@@ -10,7 +10,7 @@ export default function BundleTestimonials() {
 
   return (
     <section className="glass-strong rounded-3xl p-6 md:p-8">
-      <h2 className="font-heading mb-8 text-center text-2xl font-bold text-white">
+      <h2 className="font-heading mb-8 text-center text-2xl font-bold text-slate-900">
         What Our Students Say
       </h2>
       <div className="grid gap-6 md:grid-cols-3">
@@ -21,14 +21,14 @@ export default function BundleTestimonials() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.1 }}
-            className="rounded-2xl border border-white/5 bg-white/[0.02] p-6"
+            className="rounded-2xl border border-amber-200/40 bg-white/90 p-6"
           >
             <Quote size={24} className="mb-4 text-purple-vibrant/50" />
-            <p className="mb-6 text-sm leading-relaxed text-slate-400">
+            <p className="mb-6 text-sm leading-relaxed text-slate-600">
               &ldquo;{t.quote}&rdquo;
             </p>
             <div>
-              <p className="font-semibold text-white">{t.name}</p>
+              <p className="font-semibold text-slate-900">{t.name}</p>
               <div className="mt-1 flex items-center gap-1.5">
                 <BadgeCheck size={14} className="text-cyan-neon" />
                 <span className="text-xs text-slate-500">Verified {t.role}</span>
@@ -49,7 +49,7 @@ export function MobileBuyBar({
   originalPrice: number;
 }) {
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-white/10 bg-navy/95 p-4 backdrop-blur-lg lg:hidden">
+    <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-amber-200/60 bg-[#FFFBF0]/95 p-4 backdrop-blur-lg lg:hidden">
       <div className="flex items-center justify-between gap-4">
         <div>
           <span className="font-heading text-xl font-bold gradient-text">

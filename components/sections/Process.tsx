@@ -51,8 +51,8 @@ function LottieCard({
           </div>
         )}
       </div>
-      <h3 className="font-heading mb-3 text-2xl font-bold text-white">{title}</h3>
-      <p className="text-sm leading-relaxed text-slate-400">{description}</p>
+      <h3 className="font-heading mb-3 text-2xl font-bold text-slate-900">{title}</h3>
+      <p className="text-sm leading-relaxed text-slate-600">{description}</p>
     </motion.div>
   );
 }
@@ -74,10 +74,10 @@ export default function Process() {
           <span className="mb-4 inline-block rounded-full glass px-4 py-1.5 text-sm text-cyan-neon">
             How It Works
           </span>
-          <h2 className="font-heading text-4xl font-bold text-white md:text-5xl">
+          <h2 className="font-heading text-4xl font-bold text-slate-900 md:text-5xl">
             Educate. <span className="gradient-text">Innovate.</span> Dominate.
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-slate-400">
+          <p className="mx-auto mt-4 max-w-2xl text-slate-600">
             Transform your career in three powerful steps with industry-leading training and
             affiliate opportunities.
           </p>

@@ -101,7 +101,7 @@ export default function ImageBanner() {
               className="object-cover object-center"
               sizes="100vw"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-navy/60 via-transparent to-navy/20" />
+            <div className="absolute inset-0 bg-gradient-to-t from-amber-100/80 via-transparent to-amber-50/30" />
           </Link>
         </motion.div>
       </AnimatePresence>
@@ -131,7 +131,7 @@ export default function ImageBanner() {
             className={`rounded-full transition-all duration-300 ${
               i === current
                 ? "h-2.5 w-8 bg-cyan-neon shadow-glow-cyan"
-                : "h-2.5 w-2.5 bg-white/50 hover:bg-white/80"
+                : "h-2.5 w-2.5 bg-white/800 hover:bg-white/80"
             }`}
             aria-label={`Go to slide ${i + 1}`}
           />

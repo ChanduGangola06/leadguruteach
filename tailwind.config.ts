@@ -9,9 +9,9 @@ const config: Config = {
     extend: {
       colors: {
         navy: {
-          DEFAULT: "#0B1120",
-          light: "#111827",
-          lighter: "#1E293B",
+          DEFAULT: "#FFFBF0",
+          light: "#FFF8E7",
+          lighter: "#FFF4D6",
         },
         purple: {
           vibrant: "#7C3AED",

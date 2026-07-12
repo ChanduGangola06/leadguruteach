@@ -10,7 +10,7 @@ const Spline = dynamic(() => import("@splinetool/react-spline"), {
     <div className="flex h-full w-full items-center justify-center">
       <div className="flex flex-col items-center gap-4">
         <Loader2 className="h-10 w-10 animate-spin text-purple-vibrant" />
-        <p className="text-sm text-slate-400">Loading 3D scene...</p>
+        <p className="text-sm text-slate-600">Loading 3D scene...</p>
       </div>
     </div>
   ),

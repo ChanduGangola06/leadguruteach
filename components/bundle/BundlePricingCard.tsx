@@ -39,28 +39,28 @@ export default function BundlePricingCard({ bundle }: BundlePricingCardProps) {
         </Link>
       </motion.div>
 
-      <div className="mb-6 grid grid-cols-3 gap-3 rounded-xl bg-white/5 p-4">
+      <div className="mb-6 grid grid-cols-3 gap-3 rounded-xl bg-white/80 p-4">
         <div className="text-center">
           <BookOpen size={18} className="mx-auto mb-1 text-cyan-neon" />
-          <p className="text-sm font-semibold text-white">{bundle.courses}</p>
+          <p className="text-sm font-semibold text-slate-900">{bundle.courses}</p>
           <p className="text-xs text-slate-500">Courses</p>
         </div>
         <div className="text-center">
           <Clock size={18} className="mx-auto mb-1 text-cyan-neon" />
-          <p className="text-sm font-semibold text-white">{bundle.hours}h</p>
+          <p className="text-sm font-semibold text-slate-900">{bundle.hours}h</p>
           <p className="text-xs text-slate-500">Hours</p>
         </div>
         <div className="text-center">
           <Users size={18} className="mx-auto mb-1 text-cyan-neon" />
-          <p className="text-sm font-semibold text-white">{bundle.enrollments}</p>
+          <p className="text-sm font-semibold text-slate-900">{bundle.enrollments}</p>
           <p className="text-xs text-slate-500">Enrolled</p>
         </div>
       </div>
 
-      <h4 className="mb-3 font-semibold text-white">Includes</h4>
+      <h4 className="mb-3 font-semibold text-slate-900">Includes</h4>
       <ul className="space-y-2.5">
         {bundle.includes.map((item) => (
-          <li key={item} className="flex items-start gap-2.5 text-sm text-slate-400">
+          <li key={item} className="flex items-start gap-2.5 text-sm text-slate-600">
             <Check size={16} className="mt-0.5 shrink-0 text-purple-vibrant" />
             {item}
           </li>
@@ -69,7 +69,7 @@ export default function BundlePricingCard({ bundle }: BundlePricingCardProps) {
 
       <div className="mt-6 flex items-center gap-2 rounded-xl bg-purple-vibrant/10 px-4 py-3">
         <Award size={18} className="text-purple-glow" />
-        <span className="text-sm text-slate-300">Certificate of Completion included</span>
+        <span className="text-sm text-slate-700">Certificate of Completion included</span>
       </div>
     </div>
   );

@@ -41,7 +41,7 @@ export default function Navbar() {
             <li key={link.href}>
               <a
                 href={link.href}
-                className="text-sm font-medium text-slate-300 transition-colors hover:text-cyan-neon"
+                className="text-sm font-medium text-slate-700 transition-colors hover:text-cyan-neon"
               >
                 {link.label}
               </a>
@@ -53,7 +53,7 @@ export default function Navbar() {
         <div className="hidden items-center gap-3 md:flex">
           <Link
             href="/auth"
-            className="rounded-xl border border-white/20 px-5 py-2.5 text-sm font-medium text-white transition-all hover:border-cyan-neon/50 hover:bg-white/5"
+            className="rounded-xl border border-amber-300/50 px-5 py-2.5 text-sm font-medium text-slate-800 transition-all hover:border-cyan-neon/50 hover:bg-amber-50"
           >
             Login
           </Link>
@@ -74,7 +74,7 @@ export default function Navbar() {
 
         {/* Mobile Menu Button */}
         <button
-          className="rounded-lg p-2 text-white md:hidden"
+          className="rounded-lg p-2 text-slate-800 md:hidden"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle menu"
         >
@@ -97,16 +97,16 @@ export default function Navbar() {
                   <a
                     href={link.href}
                     onClick={() => setMobileOpen(false)}
-                    className="block rounded-lg px-4 py-3 text-sm font-medium text-slate-300 transition-colors hover:bg-white/5 hover:text-cyan-neon"
+                    className="block rounded-lg px-4 py-3 text-sm font-medium text-slate-700 transition-colors hover:bg-white/80 hover:text-cyan-neon"
                   >
                     {link.label}
                   </a>
                 </li>
               ))}
-              <li className="mt-2 flex flex-col gap-2 border-t border-white/10 pt-4">
+              <li className="mt-2 flex flex-col gap-2 border-t border-amber-200/60 pt-4">
                 <Link
                   href="/auth"
-                  className="rounded-xl border border-white/20 px-4 py-3 text-center text-sm font-medium text-white"
+                  className="rounded-xl border border-amber-300/50 px-4 py-3 text-center text-sm font-medium text-slate-800"
                 >
                   Login
                 </Link>

@@ -41,7 +41,7 @@ export default function Sidebar({
   const sidebarContent = (
     <>
       {/* Logo */}
-      <div className="flex items-center justify-between border-b border-white/5 p-4">
+      <div className="flex items-center justify-between border-b border-amber-200/40 p-4">
         <Link href="/" className="flex items-center gap-2 overflow-hidden">
           <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-purple-vibrant to-cyan-neon">
             <GraduationCap size={18} className="text-white" />
@@ -61,7 +61,7 @@ export default function Sidebar({
         </Link>
         <button
           onClick={onMobileClose}
-          className="rounded-lg p-1 text-slate-400 hover:text-white lg:hidden"
+          className="rounded-lg p-1 text-slate-600 hover:text-slate-900 lg:hidden"
           aria-label="Close sidebar"
         >
           <X size={20} />
@@ -80,8 +80,8 @@ export default function Sidebar({
               onClick={onMobileClose}
               className={`group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all ${
                 isActive
-                  ? "bg-purple-vibrant/10 text-white"
-                  : "text-slate-400 hover:bg-white/5 hover:text-white"
+                  ? "bg-purple-vibrant/10 text-purple-vibrant"
+                  : "text-slate-600 hover:bg-amber-50 hover:text-slate-900"
               }`}
             >
               {isActive && (
@@ -112,10 +112,10 @@ export default function Sidebar({
       </nav>
 
       {/* Collapse Toggle - Desktop */}
-      <div className="hidden border-t border-white/5 p-3 lg:block">
+      <div className="hidden border-t border-amber-200/40 p-3 lg:block">
         <button
           onClick={onToggle}
-          className="flex w-full items-center justify-center gap-2 rounded-xl py-2.5 text-sm text-slate-400 transition-all hover:bg-white/5 hover:text-white"
+          className="flex w-full items-center justify-center gap-2 rounded-xl py-2.5 text-sm text-slate-600 transition-all hover:bg-white/80 hover:text-slate-900"
           aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
           {collapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
@@ -159,7 +159,7 @@ export default function Sidebar({
       <motion.aside
         animate={{ width: collapsed ? 72 : 260 }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className="glass-strong fixed left-0 top-0 z-30 hidden h-full flex-col border-r border-white/5 lg:flex"
+        className="glass-strong fixed left-0 top-0 z-30 hidden h-full flex-col border-r border-amber-200/40 lg:flex"
       >
         {sidebarContent}
       </motion.aside>

@@ -56,7 +56,7 @@ export default function Hero() {
                 key={i}
                 variants={wordVariants}
                 className={`mr-3 inline-block last:mr-0 ${
-                  i >= 3 ? "gradient-text" : "text-white"
+                  i >= 3 ? "gradient-text" : "text-slate-900"
                 }`}
               >
                 {word}
@@ -68,7 +68,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}
-            className="max-w-lg text-lg leading-relaxed text-slate-400"
+            className="max-w-lg text-lg leading-relaxed text-slate-600"
           >
             The ultimate ed-tech platform combining top-notch skill development with an
             industry-leading affiliate program. Start learning today and earn while you grow.
@@ -92,7 +92,7 @@ export default function Hero() {
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
               <a
                 href="#courses"
-                className="inline-flex items-center gap-2 rounded-2xl glass px-8 py-4 text-base font-semibold text-white transition-all hover:border-purple-vibrant/50"
+                className="inline-flex items-center gap-2 rounded-2xl glass px-8 py-4 text-base font-semibold text-slate-900 transition-all hover:border-purple-vibrant/50"
               >
                 <TrendingUp size={18} className="text-cyan-neon" />
                 Explore Courses
@@ -116,8 +116,8 @@ export default function Hero() {
                 </div>
               ))}
             </div>
-            <p className="text-sm text-slate-400">
-              <span className="font-semibold text-white">2 Lakh+</span> students already learning
+            <p className="text-sm text-slate-600">
+              <span className="font-semibold text-slate-900">2 Lakh+</span> students already learning
             </p>
           </motion.div>
         </div>

@@ -51,7 +51,7 @@ function TiltCard({ pkg, index }: { pkg: CoursePackage; index: number }) {
     >
       {pkg.popular && (
         <div className="absolute -top-3 left-1/2 z-10 -translate-x-1/2">
-          <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-purple-vibrant to-cyan-neon px-4 py-1 text-xs font-semibold text-white">
+          <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-purple-vibrant to-cyan-neon px-4 py-1 text-xs font-semibold text-slate-900">
             <Star size={12} fill="currentColor" />
             Most Popular
           </span>
@@ -62,7 +62,7 @@ function TiltCard({ pkg, index }: { pkg: CoursePackage; index: number }) {
         className={`glass-strong relative flex h-full flex-col rounded-3xl p-6 transition-all duration-300 group-hover:border-purple-vibrant/40 group-hover:shadow-glow-lg bg-gradient-to-br ${pkg.gradient}`}
       >
         <div className="mb-6">
-          <h3 className="font-heading text-xl font-bold text-white">{pkg.name}</h3>
+          <h3 className="font-heading text-xl font-bold text-slate-900">{pkg.name}</h3>
           <div className="mt-3 flex items-baseline gap-2">
             <span className="font-heading text-3xl font-bold gradient-text">
               ₹{pkg.price.toLocaleString("en-IN")}
@@ -74,15 +74,15 @@ function TiltCard({ pkg, index }: { pkg: CoursePackage; index: number }) {
         </div>
 
         <div className="mb-6 flex flex-col gap-3">
-          <div className="flex items-center gap-2 text-sm text-slate-300">
+          <div className="flex items-center gap-2 text-sm text-slate-700">
             <BookOpen size={16} className="text-cyan-neon" />
             {pkg.courses} Courses
           </div>
-          <div className="flex items-center gap-2 text-sm text-slate-300">
+          <div className="flex items-center gap-2 text-sm text-slate-700">
             <Clock size={16} className="text-cyan-neon" />
             {pkg.hours} Hours
           </div>
-          <div className="flex items-center gap-2 text-sm text-slate-300">
+          <div className="flex items-center gap-2 text-sm text-slate-700">
             <Users size={16} className="text-cyan-neon" />
             {pkg.enrollments} Enrollments
           </div>
@@ -90,7 +90,7 @@ function TiltCard({ pkg, index }: { pkg: CoursePackage; index: number }) {
 
         <ul className="mb-8 flex flex-1 flex-col gap-2">
           {pkg.features.map((feature) => (
-            <li key={feature} className="flex items-center gap-2 text-sm text-slate-400">
+            <li key={feature} className="flex items-center gap-2 text-sm text-slate-600">
               <Check size={14} className="shrink-0 text-purple-vibrant" />
               {feature}
             </li>
@@ -100,7 +100,7 @@ function TiltCard({ pkg, index }: { pkg: CoursePackage; index: number }) {
         <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
           <Link
             href={`/bundle/${slugMap[pkg.id]}`}
-            className="block w-full rounded-xl border border-white/10 bg-white/5 py-3 text-center text-sm font-semibold text-white transition-all hover:border-cyan-neon/50 hover:bg-white/10"
+            className="block w-full rounded-xl border border-amber-200/60 bg-white/80 py-3 text-center text-sm font-semibold text-slate-800 transition-all hover:border-cyan-neon/50 hover:bg-amber-50/90"
           >
             View Details
           </Link>
@@ -127,10 +127,10 @@ export default function Courses() {
           <span className="mb-4 inline-block rounded-full glass px-4 py-1.5 text-sm text-cyan-neon">
             Exclusive Packages
           </span>
-          <h2 className="font-heading text-4xl font-bold text-white md:text-5xl">
+          <h2 className="font-heading text-4xl font-bold text-slate-900 md:text-5xl">
             Choose Your <span className="gradient-text">Learning Path</span>
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-slate-400">
+          <p className="mx-auto mt-4 max-w-2xl text-slate-600">
             Premium course bundles designed to accelerate your career with industry-leading
             certifications and live support.
           </p>

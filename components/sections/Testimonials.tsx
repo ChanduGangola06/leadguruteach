@@ -19,15 +19,15 @@ function TestimonialCard({
   return (
     <div className="glass-strong flex h-full flex-col rounded-3xl p-6 md:p-8">
       <Quote className="mb-4 h-8 w-8 text-purple-vibrant/60" />
-      <p className="mb-6 flex-1 text-sm leading-relaxed text-slate-300 md:text-base">
+      <p className="mb-6 flex-1 text-sm leading-relaxed text-slate-700 md:text-base">
         &ldquo;{quote}&rdquo;
       </p>
       <div className="flex items-center justify-between">
         <div>
-          <p className="font-heading font-semibold text-white">{name}</p>
+          <p className="font-heading font-semibold text-slate-900">{name}</p>
           <div className="mt-1 flex items-center gap-1.5">
             <BadgeCheck size={14} className="text-cyan-neon" />
-            <span className="text-xs text-slate-400">Verified {role}</span>
+            <span className="text-xs text-slate-600">Verified {role}</span>
           </div>
         </div>
         <div className="flex gap-0.5">
@@ -62,7 +62,7 @@ export default function Testimonials() {
           <span className="mb-4 inline-block rounded-full glass px-4 py-1.5 text-sm text-cyan-neon">
             Success Stories
           </span>
-          <h2 className="font-heading text-4xl font-bold text-white md:text-5xl">
+          <h2 className="font-heading text-4xl font-bold text-slate-900 md:text-5xl">
             Hear from Our <span className="gradient-text">Alumni</span>
           </h2>
         </motion.div>

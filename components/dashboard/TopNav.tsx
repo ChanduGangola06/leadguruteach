@@ -15,20 +15,20 @@ export default function TopNav({ onMenuClick, sidebarCollapsed }: TopNavProps) {
 
   return (
     <header
-      className={`glass-strong sticky top-0 z-20 flex items-center justify-between border-b border-white/5 px-4 py-3 transition-all lg:px-6 ${
+      className={`glass-strong sticky top-0 z-20 flex items-center justify-between border-b border-amber-200/40 px-4 py-3 transition-all lg:px-6 ${
         sidebarCollapsed ? "lg:ml-[72px]" : "lg:ml-[260px]"
       }`}
     >
       <div className="flex items-center gap-4">
         <button
           onClick={onMenuClick}
-          className="rounded-lg p-2 text-slate-400 transition-colors hover:bg-white/5 hover:text-white lg:hidden"
+          className="rounded-lg p-2 text-slate-600 transition-colors hover:bg-white/80 hover:text-slate-900 lg:hidden"
           aria-label="Open menu"
         >
           <Menu size={22} />
         </button>
         <div>
-          <h1 className="font-heading text-lg font-semibold text-white md:text-xl">
+          <h1 className="font-heading text-lg font-semibold text-slate-900 md:text-xl">
             Welcome back, <span className="gradient-text">Student</span>
           </h1>
           <p className="text-xs text-slate-500 md:text-sm">
@@ -40,7 +40,7 @@ export default function TopNav({ onMenuClick, sidebarCollapsed }: TopNavProps) {
       <div className="flex items-center gap-3">
         {/* Notifications */}
         <button
-          className="relative rounded-xl p-2.5 text-slate-400 transition-all hover:bg-white/5 hover:text-white"
+          className="relative rounded-xl p-2.5 text-slate-600 transition-all hover:bg-white/80 hover:text-slate-900"
           aria-label="Notifications"
         >
           <Bell size={20} />
@@ -54,14 +54,14 @@ export default function TopNav({ onMenuClick, sidebarCollapsed }: TopNavProps) {
         <div className="relative">
           <button
             onClick={() => setDropdownOpen(!dropdownOpen)}
-            className="flex items-center gap-2 rounded-xl p-1.5 transition-all hover:bg-white/5"
+            className="flex items-center gap-2 rounded-xl p-1.5 transition-all hover:bg-white/80"
           >
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-purple-vibrant to-cyan-neon text-sm font-bold text-white">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-purple-vibrant to-cyan-neon text-sm font-bold text-slate-900">
               ST
             </div>
             <ChevronDown
               size={16}
-              className={`hidden text-slate-400 transition-transform md:block ${dropdownOpen ? "rotate-180" : ""}`}
+              className={`hidden text-slate-600 transition-transform md:block ${dropdownOpen ? "rotate-180" : ""}`}
             />
           </button>
 
@@ -74,17 +74,17 @@ export default function TopNav({ onMenuClick, sidebarCollapsed }: TopNavProps) {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -10, scale: 0.95 }}
                   transition={{ duration: 0.15 }}
-                  className="glass-strong absolute right-0 z-20 mt-2 w-48 overflow-hidden rounded-xl border border-white/10 shadow-glow"
+                  className="glass-strong absolute right-0 z-20 mt-2 w-48 overflow-hidden rounded-xl border border-amber-200/60 shadow-glow"
                 >
-                  <div className="border-b border-white/5 px-4 py-3">
-                    <p className="text-sm font-medium text-white">Student User</p>
+                  <div className="border-b border-amber-200/40 px-4 py-3">
+                    <p className="text-sm font-medium text-slate-900">Student User</p>
                     <p className="text-xs text-slate-500">student@leadguruteach.com</p>
                   </div>
                   <div className="p-1">
                     <Link
                       href="/dashboard/settings"
                       onClick={() => setDropdownOpen(false)}
-                      className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-slate-400 transition-colors hover:bg-white/5 hover:text-white"
+                      className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-slate-600 transition-colors hover:bg-white/80 hover:text-slate-900"
                     >
                       <User size={16} />
                       Profile
@@ -92,7 +92,7 @@ export default function TopNav({ onMenuClick, sidebarCollapsed }: TopNavProps) {
                     <Link
                       href="/dashboard/settings"
                       onClick={() => setDropdownOpen(false)}
-                      className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-slate-400 transition-colors hover:bg-white/5 hover:text-white"
+                      className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-slate-600 transition-colors hover:bg-white/80 hover:text-slate-900"
                     >
                       <Settings size={16} />
                       Settings

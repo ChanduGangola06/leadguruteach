@@ -35,7 +35,7 @@ export default function Stats() {
                 <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-vibrant/20 to-cyan-neon/20">
                   <Icon className="h-6 w-6 text-cyan-neon" />
                 </div>
-                <p className="font-heading text-2xl font-bold text-white md:text-3xl">
+                <p className="font-heading text-2xl font-bold text-slate-900 md:text-3xl">
                   <AnimatedCounter
                     value={stat.value}
                     prefix={stat.prefix}
@@ -43,7 +43,7 @@ export default function Stats() {
                     display={stat.display}
                   />
                 </p>
-                <p className="text-sm text-slate-400">{stat.label}</p>
+                <p className="text-sm text-slate-600">{stat.label}</p>
               </motion.div>
             );
           })}
