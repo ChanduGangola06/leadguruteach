@@ -18,6 +18,7 @@ LeadGuruTeach helps students and young professionals **learn in-demand skills**,
 - **6 bundle detail pages** (Bronze → Startup)
 - **Authentication** (Login / Signup)
 - A **student dashboard** with stats, progress, and earnings chart
+- **Admin panel** (`/dashboard/admin`) to manage packages & banners via Supabase
 
 ---
 
@@ -71,6 +72,12 @@ Each of the 6 packages has a dedicated page with:
 - Affiliate earnings chart (SVG path animation)
 - Sub-routes: Courses, Affiliate, Earnings, Settings
 
+### Admin Panel (`/dashboard/admin`) — Supabase powered
+- **Packages CRUD** — add/edit/delete course bundles with full details
+- **Banners CRUD** — upload or link homepage carousel images
+- **Role-based access** — only users with `admin` role can access
+- **Live sync** — changes appear on homepage and bundle pages instantly
+
 ---
 
 ## Tech Stack
@@ -84,6 +91,7 @@ Each of the 6 packages has a dedicated page with:
 | Vector animations | [Lottie React](https://lottiefiles.com) |
 | 3D (Auth) | [@splinetool/react-spline](https://spline.design) |
 | Icons | [Lucide React](https://lucide.dev) |
+| Database / Auth | [Supabase](https://supabase.com) (PostgreSQL) |
 | Fonts | Outfit (headings), Inter (body) via `next/font` |
 
 ---
@@ -171,6 +179,45 @@ leadguruteach/
 | `/dashboard/affiliate` | Affiliate panel |
 | `/dashboard/earnings` | Earnings history |
 | `/dashboard/settings` | Account settings |
+| `/dashboard/admin` | Admin overview |
+| `/dashboard/admin/packages` | Manage packages |
+| `/dashboard/admin/banners` | Manage homepage banners |
+
+---
+
+## Supabase Setup (Admin Panel)
+
+Full step-by-step guide with screenshots paths, migrations, and troubleshooting:
+
+**[supabase/README.md](supabase/README.md)**
+
+Quick version:
+
+### 1. Create a Supabase project
+Go to [supabase.com](https://supabase.com) → New Project (free tier works).
+
+### 2. Run the database schema
+Open **SQL Editor** in Supabase and paste the contents of:
+
+```
+supabase/schema.sql
+```
+
+See [supabase/README.md](supabase/README.md) for migrations, reset (`drop_schema.sql`), and admin setup.
+
+---
+
+## Admin Panel Features
+
+| Feature | URL | Description |
+|---------|-----|-------------|
+| Overview | `/dashboard/admin` | Stats + quick actions |
+| Packages | `/dashboard/admin/packages` | List, create, edit, delete, toggle active |
+| New Package | `/dashboard/admin/packages/new` | Full form with courses, journey points, pricing |
+| Banners | `/dashboard/admin/banners` | Manage homepage carousel |
+| New Banner | `/dashboard/admin/banners/new` | Upload image or paste URL |
+
+Changes sync live to the homepage and `/bundle/[slug]` pages.
 
 ---
 

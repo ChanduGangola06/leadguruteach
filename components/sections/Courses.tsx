@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, useInView, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { BookOpen, Clock, Users, Check, Star } from "lucide-react";
 import { coursePackages } from "@/lib/data";
@@ -15,6 +16,10 @@ const slugMap: Record<string, string> = {
   diamond: "diamond-package",
   startup: "startup-package",
 };
+
+function getPackageSlug(pkg: CoursePackage): string {
+  return pkg.slug ?? slugMap[pkg.id] ?? pkg.id;
+}
 
 function TiltCard({ pkg, index }: { pkg: CoursePackage; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -61,6 +66,11 @@ function TiltCard({ pkg, index }: { pkg: CoursePackage; index: number }) {
       <div
         className={`glass-strong relative flex h-full flex-col rounded-3xl p-6 transition-all duration-300 group-hover:border-purple-vibrant/40 group-hover:shadow-glow-lg bg-gradient-to-br ${pkg.gradient}`}
       >
+        {pkg.imageUrl && (
+          <div className="relative mb-4 h-36 overflow-hidden rounded-2xl border border-white/40">
+            <Image src={pkg.imageUrl} alt={pkg.name} fill className="object-cover" sizes="320px" />
+          </div>
+        )}
         <div className="mb-6">
           <h3 className="font-heading text-xl font-bold text-slate-900">{pkg.name}</h3>
           <div className="mt-3 flex items-baseline gap-2">
@@ -99,7 +109,7 @@ function TiltCard({ pkg, index }: { pkg: CoursePackage; index: number }) {
 
         <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
           <Link
-            href={`/bundle/${slugMap[pkg.id]}`}
+            href={`/bundle/${getPackageSlug(pkg)}`}
             className="block w-full rounded-xl border border-amber-200/60 bg-white/80 py-3 text-center text-sm font-semibold text-slate-800 transition-all hover:border-cyan-neon/50 hover:bg-amber-50/90"
           >
             View Details
@@ -110,7 +120,8 @@ function TiltCard({ pkg, index }: { pkg: CoursePackage; index: number }) {
   );
 }
 
-export default function Courses() {
+export default function Courses({ packages }: { packages?: CoursePackage[] }) {
+  const items = packages ?? coursePackages;
   const headerRef = useRef<HTMLDivElement>(null);
   const headerInView = useInView(headerRef, { once: true });
 
@@ -137,7 +148,7 @@ export default function Courses() {
         </motion.div>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {coursePackages.map((pkg, index) => (
+          {items.map((pkg, index) => (
             <TiltCard key={pkg.id} pkg={pkg} index={index} />
           ))}
         </div>

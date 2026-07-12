@@ -38,6 +38,8 @@ export default function Sidebar({
 }: SidebarProps) {
   const pathname = usePathname();
 
+  const visibleNavItems = navItems;
+
   const sidebarContent = (
     <>
       {/* Logo */}
@@ -70,7 +72,7 @@ export default function Sidebar({
 
       {/* Nav Links */}
       <nav className="flex-1 space-y-1 p-3">
-        {navItems.map((item) => {
+        {visibleNavItems.map((item) => {
           const isActive = pathname === item.href;
           const Icon = item.icon;
           return (

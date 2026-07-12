@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { Quote, BadgeCheck, Star, ChevronLeft, ChevronRight } from "lucide-react";
-import { testimonials } from "@/lib/data";
+import type { Testimonial } from "@/lib/types";
 
 function TestimonialCard({
   quote,
@@ -40,7 +40,7 @@ function TestimonialCard({
   );
 }
 
-export default function Testimonials() {
+export default function Testimonials({ testimonials }: { testimonials: Testimonial[] }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
   const [activeIndex, setActiveIndex] = useState(0);

@@ -2,14 +2,15 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Check, BookOpen, Clock, Users, Award } from "lucide-react";
+import { Check, BookOpen, Clock, Users, Award, ShieldCheck } from "lucide-react";
 import type { BundleDetail } from "@/lib/types";
 
 interface BundlePricingCardProps {
   bundle: BundleDetail;
+  owned?: boolean;
 }
 
-export default function BundlePricingCard({ bundle }: BundlePricingCardProps) {
+export default function BundlePricingCard({ bundle, owned = false }: BundlePricingCardProps) {
   const discount = Math.round(
     ((bundle.originalPrice - bundle.price) / bundle.originalPrice) * 100
   );
@@ -31,12 +32,22 @@ export default function BundlePricingCard({ bundle }: BundlePricingCardProps) {
       </div>
 
       <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-        <Link
-          href="/auth"
-          className="mb-6 block w-full rounded-2xl bg-gradient-to-r from-purple-vibrant to-cyan-neon py-4 text-center text-base font-semibold text-white shadow-glow-lg"
-        >
-          Buy Now
-        </Link>
+        {owned ? (
+          <Link
+            href="/dashboard/courses"
+            className="mb-6 flex w-full items-center justify-center gap-2 rounded-2xl border border-emerald-300/60 bg-emerald-500/10 py-4 text-center text-base font-semibold text-emerald-700"
+          >
+            <ShieldCheck size={18} />
+            Enrolled — View Courses
+          </Link>
+        ) : (
+          <Link
+            href={`/checkout/${bundle.slug}`}
+            className="mb-6 block w-full rounded-2xl bg-gradient-to-r from-purple-vibrant to-cyan-neon py-4 text-center text-base font-semibold text-white shadow-glow-lg"
+          >
+            Buy Now
+          </Link>
+        )}
       </motion.div>
 
       <div className="mb-6 grid grid-cols-3 gap-3 rounded-xl bg-white/80 p-4">

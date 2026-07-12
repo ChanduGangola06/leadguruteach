@@ -1,10 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Loader2, Eye, EyeOff, ArrowLeft } from "lucide-react";
-import SplineScene from "@/components/ui/SplineScene";
+import AuthVisualPanel from "@/components/auth/AuthVisualPanel";
+import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
+import { toUserAuthError } from "@/lib/supabase/auth-errors";
+import { recordAuthAttempt } from "@/lib/audit/record";
+import { AUTH_API } from "@/lib/audit/types";
+import { loginAction, registerAction } from "@/app/actions/auth";
 
 type AuthMode = "login" | "signup";
 
@@ -86,62 +91,158 @@ function FloatingInput({
   );
 }
 
-export default function AuthPage() {
-  const [mode, setMode] = useState<AuthMode>("login");
+interface AuthFormProps {
+  defaultMode?: AuthMode;
+  lockMode?: boolean;
+}
+
+function authErrorMeta(error: { message?: string; code?: string; status?: number }) {
+  return {
+    errorCode: error.code ?? (error.status ? String(error.status) : undefined),
+    errorMessage: error.message,
+  };
+}
+
+export default function AuthForm({ defaultMode = "login", lockMode = false }: AuthFormProps) {
+  const [mode, setMode] = useState<AuthMode>(defaultMode);
   const [direction, setDirection] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [authError, setAuthError] = useState("");
+  const [authSuccess, setAuthSuccess] = useState("");
+  const [resetSent, setResetSent] = useState(false);
   const [formData, setFormData] = useState<FormData>({ name: "", email: "", password: "" });
+  const submittingRef = useRef(false);
 
   const switchMode = (newMode: AuthMode) => {
+    if (lockMode) return;
     setDirection(newMode === "signup" ? 1 : -1);
     setMode(newMode);
+    setAuthError("");
+    setAuthSuccess("");
+  };
+
+  const handleForgotPassword = async () => {
+    if (!formData.email) {
+      setAuthError("Enter your email address first");
+      return;
+    }
+    if (submittingRef.current) return;
+
+    if (!isSupabaseConfigured()) {
+      setAuthError("Password reset is unavailable. Please try again later.");
+      return;
+    }
+
+    submittingRef.current = true;
+    setLoading(true);
+    setAuthError("");
+
+    try {
+      const supabase = createClient();
+      const { error } = await supabase.auth.resetPasswordForEmail(formData.email, {
+        redirectTo: `${window.location.origin}/login`,
+      });
+
+      if (error) {
+        recordAuthAttempt({
+          eventType: "password_reset_failure",
+          success: false,
+          email: formData.email,
+          buttonLabel: "Forgot password?",
+          apiEndpoint: AUTH_API.recover.endpoint,
+          apiMethod: AUTH_API.recover.method,
+          ...authErrorMeta(error),
+        });
+        setAuthError(toUserAuthError(error, "reset"));
+        return;
+      }
+
+      recordAuthAttempt({
+        eventType: "password_reset_success",
+        success: true,
+        email: formData.email,
+        buttonLabel: "Forgot password?",
+        apiEndpoint: AUTH_API.recover.endpoint,
+        apiMethod: AUTH_API.recover.method,
+      });
+      setResetSent(true);
+    } catch (err) {
+      recordAuthAttempt({
+        eventType: "password_reset_failure",
+        success: false,
+        email: formData.email,
+        apiEndpoint: AUTH_API.recover.endpoint,
+        errorMessage: err instanceof Error ? err.message : "Unknown error",
+      });
+      setAuthError(toUserAuthError(null, "reset"));
+    } finally {
+      submittingRef.current = false;
+      setLoading(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (submittingRef.current) return;
+
     setLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setLoading(false);
-    window.location.href = "/dashboard";
+    setAuthError("");
+    setAuthSuccess("");
+    submittingRef.current = true;
+
+    const isLogin = mode === "login";
+
+    try {
+      if (!isSupabaseConfigured()) {
+        setAuthError(toUserAuthError(null, isLogin ? "login" : "signup"));
+        return;
+      }
+
+      if (mode === "login") {
+        const result = await loginAction(formData.email.trim(), formData.password);
+
+        if (result.error) {
+          setAuthError(result.error);
+          return;
+        }
+
+        window.location.href = result.redirectTo ?? "/dashboard";
+      } else {
+        const result = await registerAction(
+          formData.email.trim(),
+          formData.password,
+          formData.name
+        );
+
+        if (result.error) {
+          setAuthError(result.error);
+          return;
+        }
+
+        if (result.success && result.message) {
+          setAuthSuccess(result.message);
+          return;
+        }
+
+        window.location.href = result.redirectTo ?? "/dashboard";
+      }
+    } finally {
+      submittingRef.current = false;
+      setLoading(false);
+    }
   };
 
   const updateField = (field: keyof FormData) => (val: string) => {
     setFormData((prev) => ({ ...prev, [field]: val }));
   };
 
+  const alternateHref = mode === "login" ? "/register" : "/login";
+  const alternateLabel = mode === "login" ? "Create an account" : "Sign in instead";
+
   return (
     <div className="flex min-h-screen bg-[#FFFBF0]">
-      {/* Left Panel - Visuals */}
-      <div className="relative hidden w-1/2 overflow-hidden lg:block">
-        <div className="absolute inset-0 bg-gradient-to-br from-amber-100/80 via-[#FFFBF0] to-purple-vibrant/10" />
-        <div className="glow-orb glow-orb-purple absolute left-1/4 top-1/4 h-96 w-96 animate-pulse-glow" />
-        <div className="glow-orb glow-orb-cyan absolute bottom-1/4 right-1/4 h-80 w-80 animate-pulse-glow" />
+      <AuthVisualPanel mode={mode} />
 
-        <div className="relative flex h-full flex-col items-center justify-center p-12">
-          <motion.div
-            animate={{ y: [0, -12, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            className="h-[400px] w-full max-w-lg"
-          >
-            <SplineScene className="h-full w-full" />
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="mt-8 text-center"
-          >
-            <h2 className="font-heading text-3xl font-bold text-slate-900">
-              Unlock Your <span className="gradient-text">Potential</span>
-            </h2>
-            <p className="mt-2 text-slate-600">
-              Join 2 Lakh+ students learning and earning with LeadGuruTeach
-            </p>
-          </motion.div>
-        </div>
-      </div>
-
-      {/* Right Panel - Form */}
       <div className="flex w-full flex-col items-center justify-center px-6 py-12 lg:w-1/2">
         <Link
           href="/"
@@ -166,29 +267,45 @@ export default function AuthPage() {
             </p>
           </div>
 
-          {/* Mode Toggle */}
-          <div className="glass mb-8 flex rounded-xl p-1">
-            {(["login", "signup"] as AuthMode[]).map((m) => (
-              <button
-                key={m}
-                onClick={() => switchMode(m)}
-                className={`relative flex-1 rounded-lg py-2.5 text-sm font-medium transition-all ${
-                  mode === m ? "text-slate-900" : "text-slate-600 hover:text-slate-900"
-                }`}
-              >
-                {mode === m && (
-                  <motion.div
-                    layoutId="auth-tab"
-                    className="absolute inset-0 rounded-lg bg-gradient-to-r from-purple-vibrant/30 to-cyan-neon/30"
-                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                  />
-                )}
-                <span className="relative capitalize">{m === "login" ? "Login" : "Sign Up"}</span>
-              </button>
-            ))}
-          </div>
+          {!lockMode && (
+            <div className="glass mb-8 flex rounded-xl p-1">
+              {(["login", "signup"] as AuthMode[]).map((m) => (
+                <button
+                  key={m}
+                  onClick={() => switchMode(m)}
+                  className={`relative flex-1 rounded-lg py-2.5 text-sm font-medium transition-all ${
+                    mode === m ? "text-slate-900" : "text-slate-600 hover:text-slate-900"
+                  }`}
+                >
+                  {mode === m && (
+                    <motion.div
+                      layoutId="auth-tab"
+                      className="absolute inset-0 rounded-lg bg-gradient-to-r from-purple-vibrant/30 to-cyan-neon/30"
+                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    />
+                  )}
+                  <span className="relative capitalize">{m === "login" ? "Login" : "Sign Up"}</span>
+                </button>
+              ))}
+            </div>
+          )}
 
           <div className="glass-strong rounded-3xl p-8">
+            {authError && (
+              <div className="mb-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+                {authError}
+              </div>
+            )}
+            {authSuccess && (
+              <div className="mb-4 rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-700">
+                {authSuccess}
+              </div>
+            )}
+            {resetSent && (
+              <div className="mb-4 rounded-xl border border-cyan-200 bg-cyan-50 p-3 text-sm text-cyan-800">
+                Password reset link sent. Check your email.
+              </div>
+            )}
             <AnimatePresence mode="wait" custom={direction}>
               <motion.form
                 key={mode}
@@ -226,7 +343,11 @@ export default function AuthPage() {
 
                 {mode === "login" && (
                   <div className="flex justify-end">
-                    <button type="button" className="text-xs text-cyan-neon hover:underline">
+                    <button
+                      type="button"
+                      onClick={handleForgotPassword}
+                      className="text-xs text-cyan-neon hover:underline"
+                    >
                       Forgot password?
                     </button>
                   </div>
@@ -252,6 +373,15 @@ export default function AuthPage() {
                 </motion.button>
               </motion.form>
             </AnimatePresence>
+
+            {lockMode && (
+              <p className="mt-6 text-center text-sm text-slate-600">
+                {mode === "login" ? "New here?" : "Already have an account?"}{" "}
+                <Link href={alternateHref} className="font-medium text-cyan-neon hover:underline">
+                  {alternateLabel}
+                </Link>
+              </p>
+            )}
 
             <p className="mt-6 text-center text-xs text-slate-500">
               By continuing, you agree to our Terms of Service and Privacy Policy.

@@ -1,21 +1,36 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
-import { instructors } from "@/lib/data";
+import type { Instructor } from "@/lib/types";
 
-function InstructorCard({ name, title, avatar }: { name: string; title: string; avatar: string }) {
+function InstructorAvatar({ name, avatar, imageUrl }: { name: string; avatar: string; imageUrl?: string }) {
+  if (imageUrl) {
+    return (
+      <div className="relative mb-4 h-20 w-20 overflow-hidden rounded-full border-2 border-white/80 shadow-glow">
+        <Image src={imageUrl} alt={name} fill className="object-cover" sizes="80px" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-purple-vibrant to-cyan-neon text-xl font-bold text-white shadow-glow">
+      {avatar}
+    </div>
+  );
+}
+
+function InstructorCard({ name, title, avatar, imageUrl }: Instructor) {
   return (
     <div className="glass mx-3 flex w-56 shrink-0 flex-col items-center rounded-2xl p-6 transition-all hover:border-purple-vibrant/30 hover:shadow-glow">
-      <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-purple-vibrant to-cyan-neon text-xl font-bold text-white shadow-glow">
-        {avatar}
-      </div>
+      <InstructorAvatar name={name} avatar={avatar} imageUrl={imageUrl} />
       <h4 className="font-heading text-center text-base font-semibold text-slate-900">{name}</h4>
       <p className="mt-1 text-center text-xs text-slate-600">{title}</p>
     </div>
   );
 }
 
-export default function Instructors() {
+export default function Instructors({ instructors }: { instructors: Instructor[] }) {
   const doubled = [...instructors, ...instructors];
 
   return (
@@ -45,12 +60,7 @@ export default function Instructors() {
 
           <div className="marquee-track flex animate-marquee py-4">
             {doubled.map((instructor, i) => (
-              <InstructorCard
-                key={`${instructor.id}-${i}`}
-                name={instructor.name}
-                title={instructor.title}
-                avatar={instructor.avatar}
-              />
+              <InstructorCard key={`${instructor.id}-${i}`} {...instructor} />
             ))}
           </div>
         </div>

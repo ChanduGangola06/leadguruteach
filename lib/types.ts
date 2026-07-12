@@ -1,5 +1,6 @@
 export interface CoursePackage {
   id: string;
+  slug?: string;
   name: string;
   price: number;
   originalPrice: number;
@@ -9,6 +10,7 @@ export interface CoursePackage {
   features: string[];
   gradient: string;
   popular?: boolean;
+  imageUrl?: string;
 }
 
 export interface BundleCourse {
@@ -33,6 +35,7 @@ export interface Instructor {
   name: string;
   title: string;
   avatar: string;
+  imageUrl?: string;
 }
 
 export interface Testimonial {
@@ -57,6 +60,22 @@ export interface DashboardCourse {
   totalLessons: number;
   completedLessons: number;
   gradient: string;
+  description?: string;
+  packageName?: string;
+  packageSlug?: string;
+}
+
+export interface EnrolledPackage {
+  id: string;
+  packageId: string;
+  slug: string;
+  name: string;
+  gradient: string;
+  price: number;
+  coursesCount: number;
+  hours: number;
+  purchasedAt: string;
+  courses: BundleCourse[];
 }
 
 export interface ChartDataPoint {

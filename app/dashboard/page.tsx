@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import { IndianRupee, BookOpen, Coins, TrendingUp } from "lucide-react";
 import AnimatedCounter from "@/components/ui/AnimatedCounter";
@@ -226,7 +227,9 @@ export default function DashboardPage() {
       <motion.div variants={itemVariants}>
         <div className="mb-4 flex items-center justify-between">
           <h2 className="font-heading text-xl font-semibold text-slate-900">My Courses</h2>
-          <button className="text-sm text-cyan-neon hover:underline">View All</button>
+          <Link href="/dashboard/courses" className="text-sm text-cyan-neon hover:underline">
+            View All
+          </Link>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2">

@@ -52,14 +52,14 @@ export default function Navbar() {
         {/* Desktop CTA */}
         <div className="hidden items-center gap-3 md:flex">
           <Link
-            href="/auth"
+            href="/login"
             className="rounded-xl border border-amber-300/50 px-5 py-2.5 text-sm font-medium text-slate-800 transition-all hover:border-cyan-neon/50 hover:bg-amber-50"
           >
             Login
           </Link>
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
             <Link
-              href="/auth"
+              href="/register"
               className="relative overflow-hidden rounded-xl bg-gradient-to-r from-purple-vibrant to-cyan-neon px-5 py-2.5 text-sm font-semibold text-white shadow-glow"
             >
               <motion.span
@@ -105,13 +105,13 @@ export default function Navbar() {
               ))}
               <li className="mt-2 flex flex-col gap-2 border-t border-amber-200/60 pt-4">
                 <Link
-                  href="/auth"
+                  href="/login"
                   className="rounded-xl border border-amber-300/50 px-4 py-3 text-center text-sm font-medium text-slate-800"
                 >
                   Login
                 </Link>
                 <Link
-                  href="/auth"
+                  href="/register"
                   className="rounded-xl bg-gradient-to-r from-purple-vibrant to-cyan-neon px-4 py-3 text-center text-sm font-semibold text-white"
                 >
                   Join Now

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowLeft, BookOpen, Clock, Users } from "lucide-react";
 import type { BundleDetail } from "@/lib/types";
@@ -77,13 +78,26 @@ export default function BundleHero({ bundle }: BundleHeroProps) {
             transition={{ delay: 0.2, duration: 0.5 }}
             className={`relative flex h-56 items-center justify-center overflow-hidden rounded-3xl bg-gradient-to-br ${bundle.gradient} md:h-72`}
           >
-            <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80')] bg-cover bg-center opacity-30 mix-blend-overlay" />
-            <div className="relative text-center">
-              <p className="font-heading text-5xl font-bold gradient-text md:text-6xl">
-                {bundle.courses}
-              </p>
-              <p className="mt-1 text-lg text-white/80">Premium Courses</p>
-            </div>
+            {bundle.imageUrl ? (
+              <Image
+                src={bundle.imageUrl}
+                alt={bundle.name}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                priority
+              />
+            ) : (
+              <>
+                <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80')] bg-cover bg-center opacity-30 mix-blend-overlay" />
+                <div className="relative text-center">
+                  <p className="font-heading text-5xl font-bold gradient-text md:text-6xl">
+                    {bundle.courses}
+                  </p>
+                  <p className="mt-1 text-lg text-white/80">Premium Courses</p>
+                </div>
+              </>
+            )}
           </motion.div>
         </motion.div>
       </div>

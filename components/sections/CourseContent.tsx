@@ -11,7 +11,6 @@ import {
   useTransform,
 } from "framer-motion";
 import { ArrowUpRight, Play } from "lucide-react";
-import { featuredCourses } from "@/lib/featuredCourses";
 import type { FeaturedCourse } from "@/lib/featuredCourses";
 
 function CourseCard({ course, index }: { course: FeaturedCourse; index: number }) {
@@ -139,7 +138,7 @@ function CourseCard({ course, index }: { course: FeaturedCourse; index: number }
   );
 }
 
-export default function CourseContent() {
+export default function CourseContent({ courses }: { courses: FeaturedCourse[] }) {
   const headerRef = useRef<HTMLDivElement>(null);
   const headerInView = useInView(headerRef, { once: true });
 
@@ -166,7 +165,7 @@ export default function CourseContent() {
         </motion.div>
 
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
-          {featuredCourses.map((course, index) => (
+          {courses.map((course, index) => (
             <CourseCard key={course.id} course={course} index={index} />
           ))}
         </div>

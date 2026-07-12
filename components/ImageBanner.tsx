@@ -5,37 +5,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-
-const slides = [
-  {
-    id: 1,
-    src: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=1920&q=80",
-    alt: "Learn from expert trainers at LeadGuruTeach",
-    href: "/auth",
-  },
-  {
-    id: 2,
-    src: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1920&q=80",
-    alt: "Join 2 Lakh+ students and grow your career",
-    href: "#courses",
-  },
-  {
-    id: 3,
-    src: "https://images.unsplash.com/photo-1434030216441-b6ab76378458?w=1920&q=80",
-    alt: "Master in-demand skills with live trainings",
-    href: "/auth",
-  },
-  {
-    id: 4,
-    src: "https://images.unsplash.com/photo-1516321318423-f06f85b504e3?w=1920&q=80",
-    alt: "Earn through our affiliate program",
-    href: "#affiliate",
-  },
-];
+import type { BannerSlide } from "@/lib/supabase/mappers";
 
 const SLIDE_INTERVAL = 3000;
 
-export default function ImageBanner() {
+interface ImageBannerProps {
+  slides: BannerSlide[];
+}
+
+export default function ImageBanner({ slides }: ImageBannerProps) {
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
 
@@ -47,17 +25,20 @@ export default function ImageBanner() {
   const nextSlide = useCallback(() => {
     setDirection(1);
     setCurrent((prev) => (prev + 1) % slides.length);
-  }, []);
+  }, [slides.length]);
 
   const prevSlide = useCallback(() => {
     setDirection(-1);
     setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
-  }, []);
+  }, [slides.length]);
 
   useEffect(() => {
+    if (slides.length <= 1) return;
     const timer = setInterval(nextSlide, SLIDE_INTERVAL);
     return () => clearInterval(timer);
-  }, [nextSlide]);
+  }, [nextSlide, slides.length]);
+
+  if (!slides.length) return null;
 
   const slide = slides[current];
 
@@ -66,10 +47,7 @@ export default function ImageBanner() {
       x: dir > 0 ? "100%" : "-100%",
       opacity: 0.6,
     }),
-    center: {
-      x: 0,
-      opacity: 1,
-    },
+    center: { x: 0, opacity: 1 },
     exit: (dir: number) => ({
       x: dir > 0 ? "-100%" : "100%",
       opacity: 0.6,
@@ -106,37 +84,39 @@ export default function ImageBanner() {
         </motion.div>
       </AnimatePresence>
 
-      {/* Prev / Next */}
-      <button
-        onClick={prevSlide}
-        className="absolute left-3 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-sm transition-all hover:bg-black/60 md:left-6 md:h-12 md:w-12"
-        aria-label="Previous slide"
-      >
-        <ChevronLeft size={22} />
-      </button>
-      <button
-        onClick={nextSlide}
-        className="absolute right-3 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-sm transition-all hover:bg-black/60 md:right-6 md:h-12 md:w-12"
-        aria-label="Next slide"
-      >
-        <ChevronRight size={22} />
-      </button>
-
-      {/* Dots */}
-      <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2">
-        {slides.map((_, i) => (
+      {slides.length > 1 && (
+        <>
           <button
-            key={i}
-            onClick={() => goTo(i)}
-            className={`rounded-full transition-all duration-300 ${
-              i === current
-                ? "h-2.5 w-8 bg-cyan-neon shadow-glow-cyan"
-                : "h-2.5 w-2.5 bg-white/800 hover:bg-white/80"
-            }`}
-            aria-label={`Go to slide ${i + 1}`}
-          />
-        ))}
-      </div>
+            onClick={prevSlide}
+            className="absolute left-3 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-sm transition-all hover:bg-black/60 md:left-6 md:h-12 md:w-12"
+            aria-label="Previous slide"
+          >
+            <ChevronLeft size={22} />
+          </button>
+          <button
+            onClick={nextSlide}
+            className="absolute right-3 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-sm transition-all hover:bg-black/60 md:right-6 md:h-12 md:w-12"
+            aria-label="Next slide"
+          >
+            <ChevronRight size={22} />
+          </button>
+
+          <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2">
+            {slides.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => goTo(i)}
+                className={`rounded-full transition-all duration-300 ${
+                  i === current
+                    ? "h-2.5 w-8 bg-cyan-neon shadow-glow-cyan"
+                    : "h-2.5 w-2.5 bg-white/80 hover:bg-white"
+                }`}
+                aria-label={`Go to slide ${i + 1}`}
+              />
+            ))}
+          </div>
+        </>
+      )}
     </section>
   );
 }

@@ -42,11 +42,15 @@ export default function BundleTestimonials() {
 }
 
 export function MobileBuyBar({
+  slug,
   price,
   originalPrice,
+  owned = false,
 }: {
+  slug: string;
   price: number;
   originalPrice: number;
+  owned?: boolean;
 }) {
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-amber-200/60 bg-[#FFFBF0]/95 p-4 backdrop-blur-lg lg:hidden">
@@ -61,10 +65,10 @@ export function MobileBuyBar({
         </div>
         <motion.div whileTap={{ scale: 0.98 }}>
           <Link
-            href="/auth"
+            href={owned ? "/dashboard/courses" : `/checkout/${slug}`}
             className="rounded-xl bg-gradient-to-r from-purple-vibrant to-cyan-neon px-8 py-3 text-sm font-semibold text-white"
           >
-            Buy Now
+            {owned ? "My Courses" : "Buy Now"}
           </Link>
         </motion.div>
       </div>

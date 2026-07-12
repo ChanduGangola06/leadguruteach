@@ -8,19 +8,22 @@ import BundleContent from "@/components/bundle/BundleContent";
 import BundlePricingCard from "@/components/bundle/BundlePricingCard";
 import BundleFAQ from "@/components/bundle/BundleFAQ";
 import BundleTestimonials, { MobileBuyBar } from "@/components/bundle/BundleTestimonials";
-import { getBundleBySlug, getAllBundleSlugs, bundleFAQs } from "@/lib/bundles";
+import { getPackageBySlug } from "@/lib/queries/packages";
+import { userOwnsPackageBySlug } from "@/lib/queries/userPackages";
+import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { bundleDetails, bundleFAQs } from "@/lib/bundles";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
-  return getAllBundleSlugs().map((slug) => ({ slug }));
+  return bundleDetails.map((b) => ({ slug: b.slug }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const bundle = getBundleBySlug(slug);
+  const bundle = await getPackageBySlug(slug);
   if (!bundle) return { title: "Bundle Not Found" };
 
   return {
@@ -31,9 +34,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function BundlePage({ params }: PageProps) {
   const { slug } = await params;
-  const bundle = getBundleBySlug(slug);
+  const bundle = await getPackageBySlug(slug);
 
   if (!bundle) notFound();
+
+  const supabase = await createServerSupabaseClient();
+  const {
+    data: { user },
+  } = supabase ? await supabase.auth.getUser() : { data: { user: null } };
+  const owned = user ? await userOwnsPackageBySlug(user.id, slug) : false;
 
   return (
     <main className="relative min-h-screen bg-navy">
@@ -51,12 +60,17 @@ export default async function BundlePage({ params }: PageProps) {
             <BundleTestimonials />
           </div>
           <div className="lg:col-span-1">
-            <BundlePricingCard bundle={bundle} />
+            <BundlePricingCard bundle={bundle} owned={owned} />
           </div>
         </div>
       </div>
 
-      <MobileBuyBar price={bundle.price} originalPrice={bundle.originalPrice} />
+      <MobileBuyBar
+        slug={bundle.slug}
+        price={bundle.price}
+        originalPrice={bundle.originalPrice}
+        owned={owned}
+      />
       <Footer />
     </main>
   );

@@ -1,8 +1,42 @@
-export default function CoursesPage() {
+import MyCoursesView from "@/components/dashboard/MyCoursesView";
+import {
+  getAvailablePackagesForUser,
+  getUserCourses,
+  getUserEnrolledPackages,
+} from "@/lib/queries/userPackages";
+import { getProfile } from "@/lib/supabase/server";
+
+interface PageProps {
+  searchParams: Promise<{ purchased?: string; owned?: string }>;
+}
+
+export default async function CoursesPage({ searchParams }: PageProps) {
+  const profile = await getProfile();
+  const params = await searchParams;
+
+  if (!profile) {
+    return (
+      <MyCoursesView
+        courses={[]}
+        enrollments={[]}
+        availablePackages={[]}
+      />
+    );
+  }
+
+  const [courses, enrollments, availablePackages] = await Promise.all([
+    getUserCourses(profile.id),
+    getUserEnrolledPackages(profile.id),
+    getAvailablePackagesForUser(profile.id),
+  ]);
+
   return (
-    <div className="mx-auto max-w-7xl">
-      <h1 className="font-heading text-2xl font-bold text-slate-900">My Courses</h1>
-      <p className="mt-2 text-slate-600">Manage and track all your enrolled courses.</p>
-    </div>
+    <MyCoursesView
+      courses={courses}
+      enrollments={enrollments}
+      availablePackages={availablePackages}
+      purchased={params.purchased === "1"}
+      alreadyOwned={params.owned === "1"}
+    />
   );
 }
