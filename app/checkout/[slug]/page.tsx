@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
-import { GraduationCap } from "lucide-react";
+import BrandLogo from "@/components/BrandLogo";
 import CheckoutForm from "@/components/checkout/CheckoutForm";
 import { getPackageBySlug } from "@/lib/queries/packages";
 import { userOwnsPackageBySlug } from "@/lib/queries/userPackages";
@@ -40,12 +40,7 @@ export default async function CheckoutPage({ params }: PageProps) {
   return (
     <main className="relative min-h-screen bg-navy px-4 py-10 md:px-8">
       <div className="mx-auto mb-8 flex max-w-lg items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-purple-vibrant to-cyan-neon">
-            <GraduationCap size={18} className="text-white" />
-          </div>
-          <span className="font-heading text-lg font-bold gradient-text">LeadGuruTeach</span>
-        </Link>
+        <BrandLogo size={40} />
         <Link href="/dashboard/courses" className="text-sm text-slate-600 hover:text-slate-900">
           My Courses
         </Link>

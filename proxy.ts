@@ -1,12 +1,26 @@
+import { REF_COOKIE_MAX_AGE, REF_COOKIE_NAME } from "@/lib/affiliate/constants";
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function proxy(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request });
 
+  const refParam = request.nextUrl.searchParams.get("ref")?.trim().toUpperCase();
+  const refCode =
+    refParam && /^[A-Z0-9]{4,16}$/.test(refParam) ? refParam : null;
+
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !key) return supabaseResponse;
+  if (!url || !key) {
+    if (refCode) {
+      supabaseResponse.cookies.set(REF_COOKIE_NAME, refCode, {
+        path: "/",
+        maxAge: REF_COOKIE_MAX_AGE,
+        sameSite: "lax",
+      });
+    }
+    return supabaseResponse;
+  }
 
   const supabase = createServerClient(url, key, {
     cookies: {
@@ -19,6 +33,13 @@ export async function proxy(request: NextRequest) {
         cookiesToSet.forEach(({ name, value, options }) =>
           supabaseResponse.cookies.set(name, value, options)
         );
+        if (refCode) {
+          supabaseResponse.cookies.set(REF_COOKIE_NAME, refCode, {
+            path: "/",
+            maxAge: REF_COOKIE_MAX_AGE,
+            sameSite: "lax",
+          });
+        }
       },
     },
   });
@@ -70,6 +91,14 @@ export async function proxy(request: NextRequest) {
     dashboardUrl.pathname = profile?.role === "admin" ? "/dashboard/admin" : "/dashboard";
     dashboardUrl.search = "";
     return NextResponse.redirect(dashboardUrl);
+  }
+
+  if (refCode) {
+    supabaseResponse.cookies.set(REF_COOKIE_NAME, refCode, {
+      path: "/",
+      maxAge: REF_COOKIE_MAX_AGE,
+      sameSite: "lax",
+    });
   }
 
   return supabaseResponse;

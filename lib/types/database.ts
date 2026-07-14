@@ -82,6 +82,8 @@ export interface DbProfile {
   email: string;
   full_name: string | null;
   role: "student" | "admin";
+  referral_code: string | null;
+  referred_by: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -90,9 +92,40 @@ export interface DbUserPackage {
   id: string;
   user_id: string;
   package_id: string;
+  referrer_id: string | null;
   purchased_at: string;
   status: "active" | "refunded" | "cancelled";
   amount_paid: number | null;
+}
+
+export interface DbAffiliateCommission {
+  id: string;
+  affiliate_id: string;
+  buyer_id: string;
+  package_id: string;
+  user_package_id: string | null;
+  package_name: string;
+  package_price: number;
+  commission_percent: number;
+  commission_amount: number;
+  status: "credited" | "reversed";
+  created_at: string;
+}
+
+export interface DbPaymentRequest {
+  id: string;
+  user_id: string;
+  amount: number;
+  payment_method: "upi" | "bank";
+  upi_id: string | null;
+  account_name: string | null;
+  account_number: string | null;
+  ifsc_code: string | null;
+  status: "pending" | "approved" | "rejected";
+  admin_note: string | null;
+  reviewed_by: string | null;
+  reviewed_at: string | null;
+  created_at: string;
 }
 
 export interface DbAuditLog {
@@ -131,6 +164,14 @@ export type UserPackageInsert = Omit<DbUserPackage, "id" | "purchased_at"> & {
   id?: string;
   purchased_at?: string;
 };
+export type PaymentRequestInsert = Omit<
+  DbPaymentRequest,
+  "id" | "created_at" | "reviewed_by" | "reviewed_at" | "admin_note"
+> & {
+  id?: string;
+  created_at?: string;
+  admin_note?: string | null;
+};
 
 export type Database = {
   public: {
@@ -167,7 +208,10 @@ export type Database = {
       };
       profiles: {
         Row: DbProfile;
-        Insert: Omit<DbProfile, "created_at" | "updated_at">;
+        Insert: Omit<DbProfile, "created_at" | "updated_at" | "referral_code" | "referred_by"> & {
+          referral_code?: string | null;
+          referred_by?: string | null;
+        };
         Update: ProfileUpdate;
         Relationships: [];
       };
@@ -175,6 +219,21 @@ export type Database = {
         Row: DbUserPackage;
         Insert: UserPackageInsert;
         Update: Partial<UserPackageInsert>;
+        Relationships: [];
+      };
+      affiliate_commissions: {
+        Row: DbAffiliateCommission;
+        Insert: Omit<DbAffiliateCommission, "id" | "created_at"> & {
+          id?: string;
+          created_at?: string;
+        };
+        Update: Partial<DbAffiliateCommission>;
+        Relationships: [];
+      };
+      payment_requests: {
+        Row: DbPaymentRequest;
+        Insert: PaymentRequestInsert;
+        Update: Partial<DbPaymentRequest>;
         Relationships: [];
       };
       audit_logs: {

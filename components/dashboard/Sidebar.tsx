@@ -12,8 +12,8 @@ import {
   ChevronLeft,
   ChevronRight,
   X,
-  GraduationCap,
 } from "lucide-react";
+import BrandLogo from "@/components/BrandLogo";
 
 const navItems = [
   { href: "/dashboard", label: "Overview", icon: LayoutDashboard },
@@ -44,23 +44,13 @@ export default function Sidebar({
     <>
       {/* Logo */}
       <div className="flex items-center justify-between border-b border-amber-200/40 p-4">
-        <Link href="/" className="flex items-center gap-2 overflow-hidden">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-purple-vibrant to-cyan-neon">
-            <GraduationCap size={18} className="text-white" />
-          </div>
-          <AnimatePresence>
-            {!collapsed && (
-              <motion.span
-                initial={{ opacity: 0, width: 0 }}
-                animate={{ opacity: 1, width: "auto" }}
-                exit={{ opacity: 0, width: 0 }}
-                className="font-heading whitespace-nowrap text-lg font-bold gradient-text"
-              >
-                LeadGuruTeach
-              </motion.span>
-            )}
-          </AnimatePresence>
-        </Link>
+        <div className="overflow-hidden">
+          {collapsed ? (
+            <BrandLogo href="/" size={36} showText={false} />
+          ) : (
+            <BrandLogo href="/" size={36} />
+          )}
+        </div>
         <button
           onClick={onMobileClose}
           className="rounded-lg p-1 text-slate-600 hover:text-slate-900 lg:hidden"

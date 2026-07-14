@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Loader2, Eye, EyeOff, ArrowLeft } from "lucide-react";
 import AuthVisualPanel from "@/components/auth/AuthVisualPanel";
+import BrandLogo from "@/components/BrandLogo";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { toUserAuthError } from "@/lib/supabase/auth-errors";
 import { recordAuthAttempt } from "@/lib/audit/record";
@@ -254,9 +255,9 @@ export default function AuthForm({ defaultMode = "login", lockMode = false }: Au
 
         <div className="w-full max-w-md">
           <div className="mb-8 text-center lg:text-left">
-            <Link href="/" className="font-heading text-2xl font-bold gradient-text lg:hidden">
-              LeadGuruTeach
-            </Link>
+            <div className="mb-2 flex justify-center lg:justify-start">
+              <BrandLogo className="lg:hidden" size={48} />
+            </div>
             <h1 className="font-heading mt-4 text-3xl font-bold text-slate-900">
               {mode === "login" ? "Welcome Back" : "Create Account"}
             </h1>

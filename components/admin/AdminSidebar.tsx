@@ -8,13 +8,15 @@ import {
   Package,
   ImageIcon,
   Globe,
-  Shield,
   BookOpen,
   MessageSquareQuote,
   Users,
   ScrollText,
   X,
+  Share2,
+  Wallet,
 } from "lucide-react";
+import BrandLogo from "@/components/BrandLogo";
 
 const adminNav = [
   { href: "/dashboard/admin", label: "Overview", icon: LayoutDashboard },
@@ -23,6 +25,8 @@ const adminNav = [
   { href: "/dashboard/admin/featured-courses", label: "Featured Courses", icon: BookOpen },
   { href: "/dashboard/admin/testimonials", label: "Testimonials", icon: MessageSquareQuote },
   { href: "/dashboard/admin/instructors", label: "Instructors", icon: Users },
+  { href: "/dashboard/admin/leads", label: "Leads & Affiliates", icon: Share2 },
+  { href: "/dashboard/admin/payments", label: "Payment Requests", icon: Wallet },
   { href: "/dashboard/admin/audit-logs", label: "Audit Logs", icon: ScrollText },
 ];
 
@@ -37,11 +41,12 @@ export default function AdminSidebar({ mobileOpen = false, onMobileClose }: Admi
   const navContent = (
     <>
       <div className="flex items-center justify-between border-b border-amber-200/40 p-4">
-        <div className="flex items-center gap-2">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-purple-vibrant to-cyan-neon">
-            <Shield size={18} className="text-white" />
+        <div className="flex min-w-0 items-center gap-2">
+          <BrandLogo href="/dashboard/admin" size={36} showText={false} />
+          <div className="min-w-0">
+            <p className="font-heading text-sm font-bold text-[#002D5B]">LeadGuru Teach</p>
+            <p className="text-xs font-medium text-[#F58220]">Admin Panel</p>
           </div>
-          <span className="font-heading text-lg font-bold gradient-text">Admin Panel</span>
         </div>
         <button
           onClick={onMobileClose}

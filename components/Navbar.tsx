@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { navLinks } from "@/lib/data";
+import BrandLogo from "@/components/BrandLogo";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -28,12 +29,7 @@ export default function Navbar() {
           scrolled ? "glass-strong shadow-glow" : "glass"
         }`}
       >
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <span className="font-heading text-xl font-bold gradient-text md:text-2xl">
-            LeadGuruTeach
-          </span>
-        </Link>
+        <BrandLogo size={44} priority className="shrink-0" />
 
         {/* Desktop Links */}
         <ul className="hidden items-center gap-8 md:flex">

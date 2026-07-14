@@ -13,6 +13,7 @@ import {
   BookOpen,
   Loader2,
 } from "lucide-react";
+import BrandLogo from "@/components/BrandLogo";
 
 const lottieSlides = [
   {
@@ -145,6 +146,10 @@ export default function AuthVisualPanel({ mode = "login" }: AuthVisualPanelProps
       </svg>
 
       <div className="relative flex h-full flex-col items-center justify-center px-10 py-12">
+        <div className="mb-6">
+          <BrandLogo href="/" size={72} showText={false} priority />
+        </div>
+
         {/* Orbital hub */}
         <div className="relative mb-6 h-[340px] w-[340px]">
           {/* Pulse rings */}

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Mail, ArrowRight } from "lucide-react";
+import BrandLogo from "@/components/BrandLogo";
 
 const quickLinks = [
   { label: "FAQ's", href: "#" },
@@ -39,11 +40,9 @@ export default function Footer() {
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-5">
           {/* Brand & Newsletter */}
           <div className="lg:col-span-2">
-            <Link href="/" className="font-heading text-2xl font-bold gradient-text">
-              LeadGuruTeach
-            </Link>
+            <BrandLogo size={48} />
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-slate-600">
-              Get ahead in your career with LeadGuruTeach, the one-stop solution for your
+              Get ahead in your career with LeadGuru Teach, the one-stop solution for your
               educational needs. Connect with top industry professionals and fuel your passion
               for success.
             </p>

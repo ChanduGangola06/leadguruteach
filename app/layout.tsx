@@ -15,10 +15,15 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "LeadGuruTeach | Learn, Earn & Dominate",
+  title: "LeadGuru Teach | Learn, Earn & Dominate",
   description:
     "The ultimate ed-tech platform combining top-notch skill development with an industry-leading affiliate program. Unlock your potential today.",
   keywords: ["ed-tech", "online courses", "affiliate marketing", "skill development"],
+  icons: {
+    icon: [{ url: "/logo.png", type: "image/png" }],
+    apple: [{ url: "/logo.png" }],
+    shortcut: ["/logo.png"],
+  },
 };
 
 export default function RootLayout({

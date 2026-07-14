@@ -9,20 +9,27 @@ CREATE TABLE IF NOT EXISTS public.profiles (
   email TEXT NOT NULL,
   full_name TEXT,
   role TEXT NOT NULL DEFAULT 'student' CHECK (role IN ('student', 'admin')),
+  referral_code TEXT,
+  referred_by UUID REFERENCES public.profiles(id) ON DELETE SET NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+CREATE UNIQUE INDEX IF NOT EXISTS profiles_referral_code_idx
+  ON public.profiles (referral_code)
+  WHERE referral_code IS NOT NULL;
 
 -- Auto-create profile on signup
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER AS $$
 BEGIN
-  INSERT INTO public.profiles (id, email, full_name, role)
+  INSERT INTO public.profiles (id, email, full_name, role, referral_code)
   VALUES (
     NEW.id,
     NEW.email,
     COALESCE(NEW.raw_user_meta_data->>'full_name', ''),
-    COALESCE(NEW.raw_user_meta_data->>'role', 'student')
+    COALESCE(NEW.raw_user_meta_data->>'role', 'student'),
+    UPPER(SUBSTRING(REPLACE(NEW.id::text, '-', '') FROM 1 FOR 8))
   );
   RETURN NEW;
 END;
@@ -129,6 +136,7 @@ CREATE TABLE IF NOT EXISTS public.user_packages (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   package_id UUID NOT NULL REFERENCES public.packages(id) ON DELETE CASCADE,
+  referrer_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
   purchased_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   status TEXT NOT NULL DEFAULT 'active' CHECK (status IN ('active', 'refunded', 'cancelled')),
   amount_paid NUMERIC(10,2),
@@ -137,6 +145,45 @@ CREATE TABLE IF NOT EXISTS public.user_packages (
 
 CREATE INDEX IF NOT EXISTS user_packages_user_id_idx ON public.user_packages (user_id);
 CREATE INDEX IF NOT EXISTS user_packages_package_id_idx ON public.user_packages (package_id);
+CREATE INDEX IF NOT EXISTS user_packages_referrer_id_idx ON public.user_packages (referrer_id);
+
+-- Affiliate commissions
+CREATE TABLE IF NOT EXISTS public.affiliate_commissions (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  affiliate_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  buyer_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  package_id UUID NOT NULL REFERENCES public.packages(id) ON DELETE CASCADE,
+  user_package_id UUID REFERENCES public.user_packages(id) ON DELETE SET NULL,
+  package_name TEXT NOT NULL DEFAULT '',
+  package_price NUMERIC(10,2) NOT NULL DEFAULT 0,
+  commission_percent NUMERIC(5,2) NOT NULL DEFAULT 50,
+  commission_amount NUMERIC(10,2) NOT NULL DEFAULT 0,
+  status TEXT NOT NULL DEFAULT 'credited' CHECK (status IN ('credited', 'reversed')),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS affiliate_commissions_affiliate_id_idx
+  ON public.affiliate_commissions (affiliate_id);
+
+-- Payment / withdrawal requests (min ₹500)
+CREATE TABLE IF NOT EXISTS public.payment_requests (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  amount NUMERIC(10,2) NOT NULL CHECK (amount >= 500),
+  payment_method TEXT NOT NULL DEFAULT 'upi' CHECK (payment_method IN ('upi', 'bank')),
+  upi_id TEXT,
+  account_name TEXT,
+  account_number TEXT,
+  ifsc_code TEXT,
+  status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'rejected')),
+  admin_note TEXT,
+  reviewed_by UUID REFERENCES auth.users(id) ON DELETE SET NULL,
+  reviewed_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS payment_requests_user_id_idx ON public.payment_requests (user_id);
+CREATE INDEX IF NOT EXISTS payment_requests_status_idx ON public.payment_requests (status);
 
 -- ============================================================
 -- 8. Audit logs (auth, API, button clicks)
@@ -356,6 +403,40 @@ CREATE POLICY "Users can purchase packages"
 
 CREATE POLICY "Admins can read all purchases"
   ON public.user_packages FOR SELECT
+  USING (public.is_admin());
+
+-- Affiliate commissions
+ALTER TABLE public.affiliate_commissions ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Affiliates can read own commissions"
+  ON public.affiliate_commissions FOR SELECT
+  USING (auth.uid() = affiliate_id);
+
+CREATE POLICY "Admins can read all commissions"
+  ON public.affiliate_commissions FOR SELECT
+  USING (public.is_admin());
+
+CREATE POLICY "Buyers can insert commissions for referrers"
+  ON public.affiliate_commissions FOR INSERT
+  WITH CHECK (auth.uid() = buyer_id OR public.is_admin());
+
+-- Payment requests
+ALTER TABLE public.payment_requests ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can read own payment requests"
+  ON public.payment_requests FOR SELECT
+  USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can create payment requests"
+  ON public.payment_requests FOR INSERT
+  WITH CHECK (auth.uid() = user_id AND status = 'pending');
+
+CREATE POLICY "Admins can read all payment requests"
+  ON public.payment_requests FOR SELECT
+  USING (public.is_admin());
+
+CREATE POLICY "Admins can update payment requests"
+  ON public.payment_requests FOR UPDATE
   USING (public.is_admin());
 
 -- Audit logs: anyone can insert; admins read

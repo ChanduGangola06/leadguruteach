@@ -39,6 +39,8 @@ SELECT set_config('storage.allow_delete_query', 'false', true);
 -- 4. Drop all public tables (CASCADE removes policies, triggers, indexes)
 -- ============================================================
 DROP TABLE IF EXISTS public.audit_logs CASCADE;
+DROP TABLE IF EXISTS public.payment_requests CASCADE;
+DROP TABLE IF EXISTS public.affiliate_commissions CASCADE;
 DROP TABLE IF EXISTS public.user_packages CASCADE;
 DROP TABLE IF EXISTS public.instructors CASCADE;
 DROP TABLE IF EXISTS public.testimonials CASCADE;

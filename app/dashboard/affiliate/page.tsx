@@ -1,8 +1,28 @@
-export default function AffiliatePage() {
-  return (
-    <div className="mx-auto max-w-7xl">
-      <h1 className="font-heading text-2xl font-bold text-slate-900">Affiliate Panel</h1>
-      <p className="mt-2 text-slate-600">Track your referrals, links, and commission performance.</p>
-    </div>
-  );
+import AffiliatePanel from "@/components/dashboard/AffiliatePanel";
+import { getAffiliateStats } from "@/lib/queries/affiliate";
+import { getProfile } from "@/lib/supabase/server";
+
+export default async function AffiliatePage() {
+  const profile = await getProfile();
+  if (!profile) {
+    return (
+      <AffiliatePanel
+        stats={{
+          referralCode: "",
+          referralLink: "",
+          totalReferrals: 0,
+          coursesSold: 0,
+          totalEarned: 0,
+          availableBalance: 0,
+          pendingWithdrawals: 0,
+          paidOut: 0,
+          sales: [],
+          earningsByPackage: [],
+        }}
+      />
+    );
+  }
+
+  const stats = await getAffiliateStats(profile.id);
+  return <AffiliatePanel stats={stats} />;
 }
