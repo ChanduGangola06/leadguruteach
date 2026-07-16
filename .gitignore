@@ -34,6 +34,10 @@ yarn-error.log*
 .env*
 !.env.example
 
+# packed VPS release (built locally)
+/deploy/release/
+/deploy/leadguruteach-release.zip
+
 # vercel
 .vercel
 

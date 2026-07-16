@@ -29,7 +29,7 @@ export default function Navbar() {
           scrolled ? "glass-strong shadow-glow" : "glass"
         }`}
       >
-        <BrandLogo size={44} priority className="shrink-0" />
+        <BrandLogo size={56} priority className="shrink-0" />
 
         {/* Desktop Links */}
         <ul className="hidden items-center gap-8 md:flex">

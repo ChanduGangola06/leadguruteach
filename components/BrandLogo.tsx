@@ -3,17 +3,16 @@ import Link from "next/link";
 
 type BrandLogoProps = {
   href?: string;
-  /** Icon-only square size in px */
+  /** Display height in px (logo is square) */
   size?: number;
-  /** Show the logo mark only (no wordmark image crop) */
+  /** Kept for call-site compatibility; full lockup already includes the wordmark */
   showText?: boolean;
   className?: string;
   priority?: boolean;
 };
 
 /**
- * Official LeadGuru Teach brand mark.
- * Uses /public/logo.png everywhere the old graduation-cap / text logo appeared.
+ * Official LeadGuru Teach brand lockup (/public/logo.png).
  */
 export default function BrandLogo({
   href = "/",
@@ -22,21 +21,20 @@ export default function BrandLogo({
   className = "",
   priority = false,
 }: BrandLogoProps) {
+  // Full lockup reads better a bit larger when the wordmark is expected
+  const height = showText ? Math.max(size, 48) : size;
+  const width = height;
+
   const content = (
-    <span className={`inline-flex items-center gap-2 ${className}`}>
+    <span className={`inline-flex items-center ${className}`}>
       <Image
         src="/logo.png"
-        alt="LeadGuru Teach"
-        width={size}
-        height={size}
+        alt="LeadGuru Teach Private Limited — Learn | Lead | Succeed"
+        width={width}
+        height={height}
         priority={priority}
-        className="shrink-0 object-contain"
+        className="shrink-0 rounded-md object-contain"
       />
-      {showText && (
-        <span className="font-heading text-lg font-bold leading-tight text-[#002D5B] md:text-xl">
-          Lead<span className="text-[#F58220]">Guru</span> Teach
-        </span>
-      )}
     </span>
   );
 
