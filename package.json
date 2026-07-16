@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start -p 3000 -H 127.0.0.1",
-    "pack": "bash deploy/pack-for-vps.sh",
+    "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
