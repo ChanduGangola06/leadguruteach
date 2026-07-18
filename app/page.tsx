@@ -8,6 +8,7 @@ import Process from "@/components/sections/Process";
 import Courses from "@/components/sections/Courses";
 import Instructors from "@/components/sections/Instructors";
 import Testimonials from "@/components/sections/Testimonials";
+import CompanyTrust from "@/components/sections/CompanyTrust";
 import { getActiveBanners } from "@/lib/queries/banners";
 import { getActivePackages } from "@/lib/queries/packages";
 import { getActiveFeaturedCourses } from "@/lib/queries/featuredCourses";
@@ -37,6 +38,7 @@ export default async function Home() {
       <Courses packages={packages} />
       <Instructors instructors={instructors} />
       <Testimonials testimonials={testimonials} />
+      <CompanyTrust />
       <Footer />
     </main>
   );

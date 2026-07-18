@@ -2,8 +2,13 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Mail, ArrowRight } from "lucide-react";
+import { Mail, ArrowRight, MapPin, Phone } from "lucide-react";
 import BrandLogo from "@/components/BrandLogo";
+import {
+  COMPANY_NAME,
+  COMPANY_ADDRESS,
+  COMPANY_PHONES,
+} from "@/components/sections/CompanyTrust";
 
 const quickLinks = [
   { label: "FAQ's", href: "#" },
@@ -36,7 +41,7 @@ export default function Footer() {
     <footer id="affiliate" className="relative border-t border-amber-200/40 bg-navy-light/50">
       <div className="glow-orb glow-orb-purple -bottom-32 left-1/3 h-64 w-64 opacity-50" />
 
-      <div className="section-padding relative mx-auto max-w-7xl">
+      <div className="relative mx-auto max-w-7xl px-6 pb-8 pt-20 md:px-8 md:pt-24">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-5">
           {/* Brand & Newsletter */}
           <div className="lg:col-span-2">
@@ -46,6 +51,28 @@ export default function Footer() {
               educational needs. Connect with top industry professionals and fuel your passion
               for success.
             </p>
+
+            <div className="mt-6 space-y-3">
+              <p className="text-sm font-medium text-slate-900">{COMPANY_NAME}</p>
+              <p className="flex items-start gap-2 text-sm text-slate-600">
+                <MapPin size={16} className="mt-0.5 shrink-0 text-cyan-neon" />
+                <span>{COMPANY_ADDRESS}</span>
+              </p>
+              <p className="flex items-center gap-2 text-sm text-slate-600">
+                <Phone size={16} className="shrink-0 text-cyan-neon" />
+                <span className="flex flex-wrap gap-x-3">
+                  {COMPANY_PHONES.map((phone) => (
+                    <a
+                      key={phone}
+                      href={`tel:${phone.replace(/\s/g, "")}`}
+                      className="transition-colors hover:text-cyan-neon"
+                    >
+                      {phone}
+                    </a>
+                  ))}
+                </span>
+              </p>
+            </div>
 
             <div className="mt-6">
               <p className="mb-3 text-sm font-medium text-slate-900">Subscribe to our newsletter</p>
